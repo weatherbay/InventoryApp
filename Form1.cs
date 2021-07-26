@@ -22,6 +22,31 @@ namespace InventoryApp
             var database = new Database();
             database.CreateConnection();
             MessageBox.Show("connected");
+
+            //call create table method
+
+            database.CreateTable();
+            MessageBox.Show("table created");
+
+
+            //call insert table
+
+            database.InsertTable();
+            MessageBox.Show("table data inserted");
+
+
+            //read user data
+
+            database.ReadTable();
+
+            if (database.Sqlitedatareader.Read())
+            {
+                string reader = database.Sqlitedatareader.GetString(0);
+                MessageBox.Show(reader);
+            }
+
+            database.Myconnection.Close();
+            
         }
 
         

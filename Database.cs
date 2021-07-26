@@ -13,6 +13,12 @@ namespace InventoryApp
         public SQLiteConnection Myconnection;
 
 
+        public SQLiteCommand Sqlitecommand;
+
+
+        public SQLiteDataReader Sqlitedatareader;
+
+
 
 
         public void CreateConnection()
@@ -31,6 +37,39 @@ namespace InventoryApp
                 throw new InvalidOperationException($"no connection.{ex.Message}");
             }
             
+        }
+
+        public void CreateTable()
+        {
+            string sqlquery = "create table if not exists testtable (col1 varchar(20), col2 int)";
+            Sqlitecommand = Myconnection.CreateCommand();
+            Sqlitecommand.CommandText = sqlquery;
+            Sqlitecommand.ExecuteNonQuery();
+
+
+            
+        }
+
+        public void InsertTable()
+        {
+            string sqlquery = "insert into testtable (col1, col2) values ('test',1);";
+            Sqlitecommand = Myconnection.CreateCommand();
+            Sqlitecommand.CommandText = sqlquery;
+            Sqlitecommand.ExecuteNonQuery();
+
+
+
+        }
+
+        public void ReadTable()
+        {
+            string sqlquery = "select * from testtable";
+            Sqlitecommand = Myconnection.CreateCommand();
+            Sqlitecommand.CommandText = sqlquery;
+            Sqlitedatareader = Sqlitecommand.ExecuteReader();
+
+
+
         }
     }
 }
