@@ -78,20 +78,59 @@ namespace InventoryApp
                ViewInventoryDataGrid.Columns[7].Name = "timestamp";
                 
                 
-                while (sqlitedatateader.Read())
+                if (sqlitedatateader.Read())
                 {
                     ViewInventoryDataGrid.Rows.Add(new object[] {
                     sqlitedatateader.GetValue(sqlitedatateader.GetOrdinal("Partid")),  // U can use column index
                     sqlitedatateader.GetValue(sqlitedatateader.GetOrdinal("Partname")),  // Or column name like this
                     sqlitedatateader.GetValue(sqlitedatateader.GetOrdinal("Partunit")),
-                    
+
                     sqlitedatateader.GetValue(sqlitedatateader.GetOrdinal("Quantity")),
                     sqlitedatateader.GetValue(sqlitedatateader.GetOrdinal("Unitcost")),
                     sqlitedatateader.GetValue(sqlitedatateader.GetOrdinal("Supplier")),
                     sqlitedatateader.GetValue(sqlitedatateader.GetOrdinal("Supplierid")),
                     sqlitedatateader.GetValue(sqlitedatateader.GetOrdinal("Timestamp"))
 
-                       });
+
+
+                    
+
+                     }) ;
+
+                    //output quantityinstock and orderstatus; nt the table for this will be daily usage table
+                    string quantity = sqlitedatateader.GetValue(sqlitedatateader.GetOrdinal("Quantity")).ToString();
+                    this.QuantityinStock.Text = quantity;
+
+                    //output entrytime
+                    string time = sqlitedatateader.GetValue(sqlitedatateader.GetOrdinal("Timestamp")).ToString();
+                    this.ViewEntryTime.Text = time;
+
+                    //orderstatus
+                    int orderstatus = Convert.ToInt32(quantity);
+                    if(orderstatus <= 50)
+                    {
+                        this.OrderStatus.Text = "YES";
+                    }
+
+                    else if(orderstatus >= 50)
+                    {
+                        this.OrderStatus.Text = "NO";
+                    }
+
+                    //make the data grid visible
+                    this.ViewInventoryDataGrid.Visible = true;
+                }
+
+
+                //check for null value from sqldatareader
+
+                else if (!(sqlitedatateader.Read()))
+                {
+                    this.ViewErrorOut.Text = "invalid partid";
+
+                    //make the data grid invisible
+                    this.ViewInventoryDataGrid.Visible = false;
+
                 }
 
 
@@ -102,6 +141,7 @@ namespace InventoryApp
             else if (partid == string.Empty)
             {
                 MessageBox.Show("enter partid");
+                
             }
 
             

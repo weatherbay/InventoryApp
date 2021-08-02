@@ -27,7 +27,7 @@ namespace InventoryApp
         {
             DateTime currentdate = DateTime.Now;
             string convert = currentdate.ToString("dd-MM-yyyy");
-            string convert2 = currentdate.ToString("dd-MM-yyyy hh:mm:ss");
+            
             return  "Date: " + convert;
         }
 
